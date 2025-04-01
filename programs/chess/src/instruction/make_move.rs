@@ -17,13 +17,19 @@ let make_move = &mut ctx.account.game_account;
 
 
 game.status = Status::Active;
-require!(game.status == Status::Active, ErrorCode = GameNotActive);
-
-require!(game.player_turn == host.key(), ErrorCode=NotYourTurn);
+match player_turn{
+    PlayerTurn::Host if game.player_turn != game.host =>{
+        return Err(ChessError::InvalidMove.into());
+    }
+    PlayerTurn::Opponent if game.player_turn != game.opponent =>{
+        return Err(ChessError::InvalidMove.into());
+    }
+}
 game.player_turn = match game.player_turn{
-p if p == game.host => game.opponent.unwrap(),
-_ => game.host,
+    PlayerTurn::Host => PlayerTurn::Opponent,
+    PlayerTurn::Opponent => PlayerTurn::Host,
 };
+}
 //record move
 game.moves.push(MoveData{
 player: host.key(),

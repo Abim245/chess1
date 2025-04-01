@@ -15,7 +15,9 @@ pub fn join_game(ctx:Context<JoinGame>,
     game.opponent = &mut ctx.account.opponent.key();
     game.stake = stake;
 
-    require!(game.stake > 0, Error::InsufficientAmount);
+    if game.stake == 0{
+        return Err(ChessError::InsufficientFunds.into());
+    }
 
     let transfer_instruction = system_instruction::transfer{
          opponent.to_account_info().key(),

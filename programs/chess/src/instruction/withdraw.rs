@@ -18,12 +18,10 @@ use anchor_lang::prelude::Clock;
 let withdraw = &mut ctx.accounts.game_account;
 game.game_id = &ctx.accounts.game_id.key();
 game.status = Status::Completed;
-if game.winner = Some(winner)
-{
-require!(winner==game.host || winner==game.opponent.unwrap(), ErrorCode::NoWinner );
-} else {
- require!(winner==game.host && winner==game.opponent.unwrap(), ErrorCode::NoWinner);
-};
+if game.winner != game.winner{
+    return Err(ChessError::NotWinner.into());
+}
+
 game.winner = Some(winner);
 let stake = game.stake*2;
 

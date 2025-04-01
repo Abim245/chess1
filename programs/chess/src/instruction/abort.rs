@@ -15,13 +15,15 @@ let  abort_game = &mut ctx.accounts.game_account;
 game.end_reason = EndReason::EndReason3;
 game.status = Status::Aborted;
 
-require!(game.status == Status::Waiting , ErrorCode::GameAlreadyActive);
-
-require!(game.status == Status::Active , ErrorCode::GameAlreadyActive);
+if game.status != Status::Active|| Waiting{
+    return Err(ChessError::InvalidMove.info())
+}
 
 game.time_control = TimeControl::CreatedAt(Clock::get()?.unix_timestamp);
 
-require!(clock - game.time_control >= 30 , ErrorCode::TimeOut);
+if **Clock::get()?.unix_timestamp > 30 {
+    return Err(ChessError::Timeout.into());
+}
 
 if game.stake >0{
 **ctx.accounts.host.to_account_info().try_borrow_mut_lamports()? += game.stake;
