@@ -16,6 +16,25 @@ let create_game = &mut ctx.account.game_account;
 
 game.host= &mut ctx.account.host.key();
 game.stake = stake;
+
+if game.stake > 0{
+    let transfer_instruction = system_instruction::transfer{
+     opponent.to_account_info().key(),
+     game_account.to_account_info().key(),
+     stake,
+};
+
+invoke(
+    &transfer_instruction,
+    &[
+        opponent.to_account_info(),
+        ctx.accounts.game_account.to_account_info(),
+        ctx.accounts.system_program.to_account_info(),
+    ],
+)?;
+} else{
+    return Err(ChessError::InsufficientFunds.into());
+}
 game.time_control = TimeControl::StartTime(Clock::get()?.unix_timestamp);
 game.status = Status::Waiting;
 
