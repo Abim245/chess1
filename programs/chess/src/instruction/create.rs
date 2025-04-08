@@ -14,8 +14,12 @@ pub mod create{
         status:u8)->Result<()>{
 let create_game = &mut ctx.account.game_account;
 
-game.host= &mut ctx.account.host.key();
-game.stake = stake;
+// game.host= &mut ctx.account.host.key();
+// game.stake = stake;
+game.new_game(ctx.accounts.host.key,
+            ctx.Account.game_account.stake,
+            time_control,
+            status);
 
 if game.stake > 0{
     let transfer_instruction = system_instruction::transfer{

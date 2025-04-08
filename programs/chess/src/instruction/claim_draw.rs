@@ -11,9 +11,15 @@ pub mod claim_draw{
         end_reason:Option<EndReason>)->Result<()>{
 let claim_draw = &mut ctx.accounts.game_account;
 
-game.status = Status::Completed;
-game.winner = None;
-game.end_reason = Some(reason);
+// game.status = Status::Completed;
+// game.winner = None;
+// game.end_reason = Some(reason);
+
+game.end_game(ctx.accounts.host.key(),
+              end_reason,
+              status);
+    
+
 
 Ok(())
  }
