@@ -12,8 +12,13 @@ pub mod abort_game{
         end_reason:Option<EndReason>,
         moves:String)->Result<()>{
 let  abort_game = &mut ctx.accounts.game_account;
-game.end_reason = EndReason::EndReason3;
-game.status = Status::Aborted;
+// game.end_reason = EndReason::EndReason3;
+// game.status = Status::Aborted;
+
+game.abort_game(
+    end_reason = Some(EndReason::EndReason3),
+    status,
+)
 
 if game.status != Status::Active|| Waiting{
     return Err(ChessError::InvalidMove.info())

@@ -13,11 +13,16 @@ use anchor_lang::prelude::Clock;
 
     pub fn withdraw(ctx:Context<WithdrawAmount>,
         status:u8,
-        id:Pubkey,
+        game_id:Pubkey,
         winner:Pubkey)->Result<()>{
 let withdraw = &mut ctx.accounts.game_account;
-game.game_id = &ctx.accounts.game_id.key();
-game.status = Status::Completed;
+// game.game_id = &ctx.accounts.game_id.key();
+// game.status = Status::Completed;
+game.withdraw(
+    winner,
+    game_id,
+    status,
+)
 if game.winner != game.winner{
     return Err(ChessError::NotWinner.into());
 }

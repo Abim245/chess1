@@ -8,7 +8,10 @@ pub mod init{
                 _game_count:u64,
                 )->Result<()>{
             let init_game = &mut ctx.accounts.chess_program;
-            state.admin = ctx.accounts.payer.key();
+            chess_program.new(
+                ctx.accounts.admin.key(),
+                game_count,
+            )
         Ok(())
     }
 }

@@ -15,8 +15,8 @@ let claim_draw = &mut ctx.accounts.game_account;
 // game.winner = None;
 // game.end_reason = Some(reason);
 
-game.end_game(ctx.accounts.host.key(),
-              end_reason,
+game.end_game(None,
+              end_reason = Some(EndReason::EndReason2),
               status);
     
 

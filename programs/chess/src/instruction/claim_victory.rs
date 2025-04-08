@@ -19,8 +19,8 @@ let claim_victory = &mut ctx.accounts.game_account;
 // game.end_reason = EndReason::EndReason1;
 // game.status =Status::Completed;
 // game.winner = &ctx.accounts.winner.key();
-game.end_game(ctx.accounts.host.key(),
-              end_reason,
+game.end_game(ctx.accounts.winner.key(),
+              end_reason = Some(EndReason::EndReason1),
               status);
     
 game.time_control = TimeControl::EndTime(Clock::get()?.unix_timestamp);
