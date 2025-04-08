@@ -10,10 +10,15 @@ pub fn join_game(ctx:Context<JoinGame>,
                  opponent:Pubkey)->Result<()>{
     let join_game = &mut ctx.account.game_account;
 
-    game.game_id = ctx.account.host.key();
-    game.status= Status::Active;
-    game.opponent = &mut ctx.account.opponent.key();
-    game.stake = stake;
+    // game.game_id = ctx.account.host.key();
+    // game.status= Status::Active;
+    // game.opponent = &mut ctx.account.opponent.key();
+    // game.stake = stake;
+
+    game.start_game(ctx.accounts.opponent.key(),
+                    ctx.accounts.game_account.stake,
+                     status);
+    
 
     if game.stake > 0{
         let transfer_instruction = system_instruction::transfer{
